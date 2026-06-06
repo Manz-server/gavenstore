@@ -19,7 +19,8 @@ import {
   Bell,
   Sparkles,
   Link,
-  ChevronDown
+  ChevronDown,
+  Menu
 } from 'lucide-react';
 import { AppConfig, Package, Testimonial, FAQItem } from '../types';
 
@@ -28,9 +29,10 @@ interface AdminSettingsProps {
   packages: Package[];
   onSaveConfig: (updatedConfig: AppConfig) => void;
   onUpdatePackages: (updatedPackages: Package[]) => void;
+  onOpenMobileMenu?: () => void;
 }
 
-export default function AdminSettings({ config, packages, onSaveConfig, onUpdatePackages }: AdminSettingsProps) {
+export default function AdminSettings({ config, packages, onSaveConfig, onUpdatePackages, onOpenMobileMenu }: AdminSettingsProps) {
   // Config Form State
   const [brandName, setBrandName] = useState(config.brandName || 'Gaven Store');
   const [whatsappContact, setWhatsappContact] = useState(config.whatsappContact || '+62 877-4593-5987');
@@ -310,16 +312,28 @@ export default function AdminSettings({ config, packages, onSaveConfig, onUpdate
         
         {/* Header Title */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/5 pb-6">
-          <div>
-            <h1 className="font-heading text-xl md:text-2xl font-black text-white">Konfigurasi Website Admin</h1>
-            <p className="text-xs text-[#c6c6cc]">Kelola data produk, nama brand, FAQ, ulasan testimoni, dan live alert notifications tanpa mengubah kode.</p>
+          <div className="flex justify-between items-start w-full">
+            <div>
+              <h1 className="font-heading text-xl md:text-2xl font-black text-white">Konfigurasi Website Admin</h1>
+              <p className="text-xs text-[#c6c6cc]">Kelola data produk, nama brand, FAQ, ulasan testimoni, dan live alert notifications tanpa mengubah kode.</p>
+            </div>
+            {onOpenMobileMenu && (
+              <button 
+                type="button" 
+                onClick={onOpenMobileMenu}
+                className="lg:hidden text-white bg-white/5 hover:bg-white/10 p-2.5 rounded-lg border border-white/10 shrink-0"
+                title="Buka Menu"
+              >
+                <Menu className="w-5 h-5 text-indigo-400" />
+              </button>
+            )}
           </div>
           
           <button 
             type="button"
             onClick={handleSaveGlobalConfig}
             style={{ backgroundColor: primaryThemeHex }}
-            className="text-white text-xs font-bold px-6 py-3.5 rounded-xl flex items-center gap-2 shadow-lg hover:brightness-110 active:scale-95 transition-all self-stretch md:self-auto text-center justify-center justify-items-center"
+            className="text-white text-xs font-bold px-6 py-3.5 rounded-xl flex items-center gap-2 shadow-lg hover:brightness-110 active:scale-95 transition-all self-stretch md:self-auto text-center justify-center justify-items-center shrink-0"
           >
             <Save className="w-4 h-4" /> Simpan Semua Perubahan
           </button>
